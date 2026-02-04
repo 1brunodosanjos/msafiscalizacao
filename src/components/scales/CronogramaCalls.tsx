@@ -399,7 +399,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                 <span
                                     className="bg-emerald-500 px-8 py-2.5 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md"
                                     data-export-bg="#5eead4"
-                                    data-export-color="#000000"
+                                    data-export-color="#ffffff"
                                 >
                                     {DIAS_LABEL[dia]}
                                 </span>
