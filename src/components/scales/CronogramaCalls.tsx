@@ -224,6 +224,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             table.style.overflow = 'visible';
                             table.style.height = 'auto';
                             table.style.backgroundColor = '#ffffff';
+                            table.style.border = '3px solid #000000'; // Stronger border
                         }
 
                         // Force centering on all grid cells
@@ -274,6 +275,8 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             div.style.minHeight = '30px';
                             div.style.whiteSpace = 'pre-wrap'; // Allow wrapping
                             div.style.overflow = 'visible';
+                            div.style.color = '#000000'; // Strong black text
+                            div.style.fontWeight = '600'; // Semi-bold for better visibility
 
                             if (input.parentElement) {
                                 input.parentElement.replaceChild(div, input);
@@ -310,12 +313,13 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             // Use the actual original background color
                             div.style.background = bgColor;
                             div.style.borderRadius = '4px';
-                            div.style.padding = '4px';
+                            div.style.padding = '6px 8px';
                             div.style.width = '100%';
                             div.style.height = 'auto';
                             div.style.whiteSpace = 'pre-wrap';
                             div.style.fontSize = '14px';
-                            div.style.fontWeight = '500';
+                            div.style.fontWeight = '600'; // Bolder text
+                            div.style.color = '#000000'; // Strong black text
 
                             if (btn.parentElement) {
                                 btn.parentElement.replaceChild(div, btn);
@@ -407,7 +411,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         <div key={dia} id={`schedule-day-${dia}`} className="flex flex-col items-center w-full animate-in fade-in duration-500 p-6 bg-[#0f172a] rounded-lg">
                             {/* Day Header */}
                             <div className="mb-4 flex items-center justify-center gap-4 relative w-full max-w-5xl">
-                                <span className="bg-emerald-300 px-6 py-1.5 font-bold text-lg uppercase text-black border border-black/10 shadow-sm rounded-sm">
+                                <span className="bg-emerald-500 px-8 py-2.5 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md">
                                     {DIAS_LABEL[dia]}
                                 </span>
                                 <Button
@@ -422,25 +426,25 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             </div>
 
                             {/* Table */}
-                            <div className="w-full max-w-5xl border-2 border-black bg-white shadow-xl rounded-sm overflow-hidden">
+                            <div className="w-full max-w-5xl border-[3px] border-black bg-white shadow-xl rounded-sm overflow-hidden">
                                 {/* Table Header */}
-                                <div className="grid grid-cols-[120px_1fr_250px_70px] border-b-2 border-black divide-x-2 divide-black bg-emerald-100 font-bold text-sm uppercase">
-                                    <div className="p-2 bg-emerald-300 text-black flex items-center justify-center">HORÁRIO</div>
-                                    <div className="p-2 bg-emerald-300 text-black flex items-center justify-center">CALL</div>
-                                    <div className="p-2 bg-emerald-300 text-black flex items-center justify-center">GESTOR</div>
-                                    <div className="p-2 bg-emerald-300 text-black" data-html2canvas-ignore></div>
+                                <div className="grid grid-cols-[120px_1fr_250px_70px] border-b-[3px] border-black divide-x-[3px] divide-black bg-emerald-100 font-bold text-sm uppercase">
+                                    <div className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold">HORÁRIO</div>
+                                    <div className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold">CALL</div>
+                                    <div className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold">GESTOR</div>
+                                    <div className="p-3 bg-emerald-500 text-white" data-html2canvas-ignore></div>
                                 </div>
 
                                 {/* Table Body */}
-                                <div className="divide-y divide-black text-sm">
+                                <div className="divide-y-[2px] divide-black text-sm">
                                     {grouped[dia]?.length ? (
                                         grouped[dia].map((item, idx) => (
-                                            <div key={item.id} className="grid grid-cols-[120px_1fr_250px_70px] divide-x divide-black hover:bg-gray-50 group">
+                                            <div key={item.id} className="grid grid-cols-[120px_1fr_250px_70px] divide-x-[2px] divide-black hover:bg-gray-50 group">
                                                 {/* Horário */}
-                                                <div className="p-1">
+                                                <div className="p-2">
                                                     <Input
                                                         disabled={readOnly}
-                                                        className="h-full border-none shadow-none text-center font-bold bg-transparent focus-visible:ring-0 disabled:opacity-100"
+                                                        className="h-full border-none shadow-none text-center font-extrabold text-base bg-transparent focus-visible:ring-0 disabled:opacity-100 text-black"
                                                         value={item.horario}
                                                         placeholder="00:00"
                                                         onChange={(e) => updateLocalItem(item.id, 'horario', e.target.value)}
@@ -449,7 +453,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                                 </div>
 
                                                 {/* Call (Topic + Group) */}
-                                                <div className="p-1 flex gap-1">
+                                                <div className="p-2 flex gap-1">
                                                     {/* Optional Group Select - Small */}
                                                     <Select
                                                         disabled={readOnly}
@@ -459,7 +463,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                                             // setTimeout(() => !item.isNew && handleSaveItem({ ...item, grupo_id: v }), 200);
                                                         }}
                                                     >
-                                                        <SelectTrigger className="w-[120px] h-full border-none shadow-none bg-black/5 text-xs focus:ring-0">
+                                                        <SelectTrigger className="w-[120px] h-full border-none shadow-none bg-black/5 text-xs focus:ring-0 font-semibold text-black">
                                                             <SelectValue placeholder="Grupo" />
                                                         </SelectTrigger>
                                                         <SelectContent>
@@ -470,7 +474,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                                     {/* Topic Input */}
                                                     <Input
                                                         disabled={readOnly}
-                                                        className="h-full border-none shadow-none bg-transparent focus-visible:ring-0 flex-1 font-medium disabled:opacity-100"
+                                                        className="h-full border-none shadow-none bg-transparent focus-visible:ring-0 flex-1 font-semibold text-black disabled:opacity-100"
                                                         value={item.observacao}
                                                         placeholder="Nome da Call / Tema"
                                                         onChange={(e) => updateLocalItem(item.id, 'observacao', e.target.value)}
@@ -479,7 +483,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                                 </div>
 
                                                 {/* Gestor */}
-                                                <div className="p-1">
+                                                <div className="p-2">
                                                     <Select
                                                         disabled={readOnly}
                                                         value={item.gestor_id}
@@ -488,7 +492,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                                             // setTimeout(() => !item.isNew && handleSaveItem({ ...item, gestor_id: v }), 200);
                                                         }}
                                                     >
-                                                        <SelectTrigger className="w-full h-full border-none shadow-none bg-transparent focus:ring-0 font-medium">
+                                                        <SelectTrigger className="w-full h-full border-none shadow-none bg-transparent focus:ring-0 font-semibold text-black">
                                                             <SelectValue placeholder="Selecione..." />
                                                         </SelectTrigger>
                                                         <SelectContent>
