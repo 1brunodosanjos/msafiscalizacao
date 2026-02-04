@@ -200,6 +200,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
 
         try {
             toast.info("Gerando imagem...");
+
             const canvas = await html2canvas(element, {
                 scale: 4,
                 backgroundColor: '#ffffff',
@@ -208,138 +209,141 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                 windowWidth: 1920,
                 allowTaint: true,
                 ignoreElements: (el) => el.hasAttribute('data-html2canvas-ignore'),
-                onclone: (clonedDoc) => {
-                    const clonedEl = clonedDoc.getElementById(`schedule-day-${dia}`);
-                    if (clonedEl) {
-                        // Set container styles
-                        clonedEl.style.height = 'auto';
-                        clonedEl.style.width = '1200px';
-                        clonedEl.style.padding = '40px';
-                        clonedEl.style.overflow = 'visible';
-                        clonedEl.style.backgroundColor = '#ffffff';
-                        clonedEl.style.color = '#000000';
-                        clonedEl.style.opacity = '1';
+                onclone: (clonedDoc, clonedEl) => {
+                    const scheduleEl = clonedDoc.getElementById(`schedule-day-${dia}`);
+                    if (!scheduleEl) return;
 
-                        // Apply export colors from data attributes with forced opacity
-                        const exportElements = clonedEl.querySelectorAll('[data-export-bg]');
-                        exportElements.forEach(el => {
-                            if (el instanceof HTMLElement) {
-                                const bgColor = el.getAttribute('data-export-bg');
-                                const textColor = el.getAttribute('data-export-color');
-                                if (bgColor) {
-                                    el.style.backgroundColor = bgColor;
-                                    el.style.opacity = '1';
-                                }
-                                if (textColor) {
-                                    el.style.color = textColor;
-                                }
-                                // Force font weight for visibility
-                                el.style.fontWeight = '700';
-                            }
-                        });
+                    // CRITICAL: Remove ALL inherited background colors and set to pure white
+                    scheduleEl.style.backgroundColor = '#ffffff';
+                    scheduleEl.style.backgroundImage = 'none';
+                    scheduleEl.style.padding = '40px';
+                    scheduleEl.style.width = '1200px';
+                    scheduleEl.style.height = 'auto';
+                    scheduleEl.style.opacity = '1';
+                    scheduleEl.style.filter = 'none';
 
-                        // Force all elements to be fully opaque
-                        const allElements = clonedEl.querySelectorAll('*');
-                        allElements.forEach(el => {
-                            if (el instanceof HTMLElement) {
-                                // Remove any opacity that might make things faded
-                                if (el.style.opacity && parseFloat(el.style.opacity) < 1) {
-                                    el.style.opacity = '1';
-                                }
-                                // Remove any transparency from computed styles
-                                const computedStyle = window.getComputedStyle(el);
-                                if (parseFloat(computedStyle.opacity) < 1) {
-                                    el.style.opacity = '1';
-                                }
-                            }
-                        });
-
-                        // Remove the "Delete" column
-                        const tableRows = clonedEl.querySelectorAll('.grid-cols-\\[120px_1fr_250px_70px\\]');
-                        tableRows.forEach(row => {
-                            if (row instanceof HTMLElement) {
-                                row.style.gridTemplateColumns = '120px 1fr 250px';
-                                const children = Array.from(row.children);
-                                if (children.length >= 4) {
-                                    const lixeira = children[3];
-                                    if (lixeira instanceof HTMLElement) {
-                                        lixeira.style.display = 'none';
-                                    }
-                                }
-                            }
-                        });
-
-                        // Replace Inputs with divs
-                        const inputs = clonedEl.querySelectorAll('input');
-                        inputs.forEach(input => {
-                            const div = clonedDoc.createElement('div');
-                            div.innerText = input.value;
-                            div.style.display = 'flex';
-                            div.style.alignItems = 'center';
-                            div.style.justifyContent = 'center';
-                            div.style.textAlign = 'center';
-                            div.style.background = 'transparent';
-                            div.style.border = 'none';
-                            div.style.width = '100%';
-                            div.style.height = 'auto';
-                            div.style.minHeight = '32px';
-                            div.style.whiteSpace = 'pre-wrap';
-                            div.style.overflow = 'visible';
-                            div.style.color = '#000000';
-                            div.style.fontWeight = '600';
-                            div.style.fontSize = '14px';
-                            div.style.opacity = '1';
-
-                            if (input.parentElement) {
-                                input.parentElement.replaceChild(div, input);
-                            }
-                        });
-
-                        // Replace Select Triggers
-                        const selectTriggers = clonedEl.querySelectorAll('button[role="combobox"]');
-                        selectTriggers.forEach(btn => {
-                            const computedStyle = window.getComputedStyle(btn);
-                            const bgColor = computedStyle.backgroundColor;
-                            const isGroupSelect = bgColor === 'rgba(0, 0, 0, 0.05)' || bgColor.includes('0.05');
-
-                            if (isGroupSelect) {
-                                (btn as HTMLElement).style.display = 'none';
-                                return;
-                            }
-
-                            const div = clonedDoc.createElement('div');
-                            div.innerText = (btn as HTMLElement).innerText;
-                            div.style.display = 'flex';
-                            div.style.alignItems = 'center';
-                            div.style.justifyContent = 'center';
-                            div.style.textAlign = 'center';
-                            div.style.background = 'transparent';
-                            div.style.borderRadius = '4px';
-                            div.style.padding = '6px';
-                            div.style.width = '100%';
-                            div.style.height = 'auto';
-                            div.style.whiteSpace = 'pre-wrap';
-                            div.style.fontSize = '14px';
-                            div.style.fontWeight = '600';
-                            div.style.color = '#000000';
-                            div.style.opacity = '1';
-
-                            if (btn.parentElement) {
-                                btn.parentElement.replaceChild(div, btn);
-                            }
-                        });
+                    // Remove dark background from parent
+                    const parent = scheduleEl.parentElement;
+                    if (parent) {
+                        parent.style.backgroundColor = '#ffffff';
+                        parent.style.backgroundImage = 'none';
                     }
+
+                    // Apply colors to header and table headers using data attributes
+                    const exportElements = scheduleEl.querySelectorAll('[data-export-bg]');
+                    exportElements.forEach(el => {
+                        if (el instanceof HTMLElement) {
+                            const bgColor = el.getAttribute('data-export-bg');
+                            const textColor = el.getAttribute('data-export-color');
+
+                            if (bgColor) {
+                                el.style.setProperty('background-color', bgColor, 'important');
+                                el.style.setProperty('background-image', 'none', 'important');
+                            }
+                            if (textColor) {
+                                el.style.setProperty('color', textColor, 'important');
+                            }
+                            el.style.setProperty('opacity', '1', 'important');
+                            el.style.setProperty('font-weight', '700', 'important');
+                        }
+                    });
+
+                    // Force ALL elements to be fully opaque and remove any filters
+                    const allElements = scheduleEl.querySelectorAll('*');
+                    allElements.forEach(el => {
+                        if (el instanceof HTMLElement) {
+                            // Remove any opacity/transparency
+                            const currentOpacity = window.getComputedStyle(el).opacity;
+                            if (parseFloat(currentOpacity) < 1) {
+                                el.style.setProperty('opacity', '1', 'important');
+                            }
+
+                            // Remove filters that might cause fading
+                            el.style.setProperty('filter', 'none', 'important');
+                            el.style.setProperty('backdrop-filter', 'none', 'important');
+                        }
+                    });
+
+                    // Remove the delete column
+                    const tableRows = scheduleEl.querySelectorAll('.grid-cols-\\[120px_1fr_250px_70px\\]');
+                    tableRows.forEach(row => {
+                        if (row instanceof HTMLElement) {
+                            row.style.gridTemplateColumns = '120px 1fr 250px';
+                            const children = Array.from(row.children);
+                            if (children.length >= 4) {
+                                (children[3] as HTMLElement).style.display = 'none';
+                            }
+                        }
+                    });
+
+                    // Replace inputs with static divs
+                    const inputs = scheduleEl.querySelectorAll('input');
+                    inputs.forEach(input => {
+                        const div = clonedDoc.createElement('div');
+                        div.textContent = input.value;
+                        div.style.cssText = `
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            text-align: center;
+                            width: 100%;
+                            min-height: 32px;
+                            color: #000000;
+                            font-weight: 600;
+                            font-size: 14px;
+                            opacity: 1;
+                            background: transparent;
+                        `;
+                        input.parentElement?.replaceChild(div, input);
+                    });
+
+                    // Replace select buttons with static divs
+                    const selectTriggers = scheduleEl.querySelectorAll('button[role="combobox"]');
+                    selectTriggers.forEach(btn => {
+                        const btnEl = btn as HTMLElement;
+                        const computedBg = window.getComputedStyle(btnEl).backgroundColor;
+
+                        // Hide group selects (they have semi-transparent background)
+                        if (computedBg.includes('0.05')) {
+                            btnEl.style.display = 'none';
+                            return;
+                        }
+
+                        const div = clonedDoc.createElement('div');
+                        div.textContent = btnEl.innerText;
+                        div.style.cssText = `
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            text-align: center;
+                            width: 100%;
+                            padding: 6px;
+                            color: #000000;
+                            font-weight: 600;
+                            font-size: 14px;
+                            opacity: 1;
+                            background: transparent;
+                        `;
+                        btnEl.parentElement?.replaceChild(div, btnEl);
+                    });
                 }
             });
 
-            const link = document.createElement('a');
-            link.download = `cronograma-calls-${dia}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            toast.success("Download iniciado!");
-        } catch (err) {
-            console.error(err);
-            toast.error("Erro ao gerar imagem.");
+            // Convert canvas to blob and download
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `cronograma-${DIAS_LABEL[dia]}.png`;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    toast.success("Imagem baixada!");
+                }
+            }, 'image/png', 1.0);
+        } catch (error) {
+            console.error('Error generating image:', error);
+            toast.error("Erro ao gerar imagem");
         }
     };
 
