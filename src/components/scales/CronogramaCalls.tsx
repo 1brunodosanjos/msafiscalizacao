@@ -201,7 +201,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
         try {
             toast.info("Gerando imagem...");
             const canvas = await html2canvas(element, {
-                scale: 4, // Maximum quality
+                scale: 4, // Maximum quality for crisp export
                 backgroundColor: '#ffffff',
                 useCORS: true,
                 logging: false,
@@ -218,48 +218,48 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         clonedEl.style.backgroundColor = '#ffffff';
                         clonedEl.style.color = '#000000';
 
-                        // FORCE VIVID COLORS ON DAY HEADER
+                        // Style day header with original light green
                         const dayHeader = clonedEl.querySelector('span.bg-emerald-500');
                         if (dayHeader instanceof HTMLElement) {
-                            dayHeader.style.backgroundColor = '#10b981'; // Emerald-500 RGB
-                            dayHeader.style.color = '#ffffff';
-                            dayHeader.style.fontWeight = '800';
-                            dayHeader.style.fontSize = '22px';
-                            dayHeader.style.padding = '12px 32px';
-                            dayHeader.style.border = '3px solid #059669'; // Emerald-600
-                            dayHeader.style.borderRadius = '8px';
-                            dayHeader.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                            dayHeader.style.backgroundColor = '#6ee7b7'; // Emerald-300 (light green)
+                            dayHeader.style.color = '#000000'; // Black text
+                            dayHeader.style.fontWeight = '700';
+                            dayHeader.style.fontSize = '18px';
+                            dayHeader.style.padding = '8px 24px';
+                            dayHeader.style.border = '1px solid rgba(0, 0, 0, 0.1)';
+                            dayHeader.style.borderRadius = '4px';
+                            dayHeader.style.boxShadow = '0 1px 2px rgba(0, 0, 0, 0.05)';
                         }
 
-                        // FORCE VIVID COLORS ON TABLE
+                        // Style table with crisp borders
                         const table = clonedEl.querySelector('.border-\\[3px\\]');
                         if (table instanceof HTMLElement) {
                             table.style.overflow = 'visible';
                             table.style.height = 'auto';
                             table.style.backgroundColor = '#ffffff';
-                            table.style.border = '4px solid #000000'; // Even thicker border
+                            table.style.border = '2px solid #000000';
                             table.style.borderRadius = '4px';
                         }
 
-                        // FORCE VIVID COLORS ON TABLE HEADERS (HORÁRIO, CALL, GESTOR)
+                        // Style table headers with light green (original design)
                         const headers = clonedEl.querySelectorAll('.bg-emerald-500');
                         headers.forEach(header => {
                             if (header instanceof HTMLElement && header !== dayHeader) {
-                                header.style.backgroundColor = '#10b981'; // Emerald-500 RGB
-                                header.style.color = '#ffffff';
-                                header.style.fontWeight = '900';
-                                header.style.fontSize = '15px';
-                                header.style.padding = '12px';
+                                header.style.backgroundColor = '#6ee7b7'; // Emerald-300 (light green)
+                                header.style.color = '#000000'; // Black text
+                                header.style.fontWeight = '700';
+                                header.style.fontSize = '14px';
+                                header.style.padding = '8px';
                                 header.style.textTransform = 'uppercase';
                             }
                         });
 
-                        // FORCE STRONG BORDERS ON ALL GRID DIVIDERS
+                        // Force strong borders on grid dividers
                         const gridDividers = clonedEl.querySelectorAll('.divide-x-\\[2px\\], .divide-x-\\[3px\\], .divide-y-\\[2px\\]');
                         gridDividers.forEach(div => {
                             if (div instanceof HTMLElement) {
                                 div.style.borderColor = '#000000';
-                                div.style.borderWidth = '3px';
+                                div.style.borderWidth = '2px';
                             }
                         });
 
@@ -286,7 +286,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             }
                         });
 
-                        // Replace Inputs with STRONG BLACK TEXT
+                        // Replace Inputs with crisp black text
                         const inputs = clonedEl.querySelectorAll('input');
                         inputs.forEach(input => {
                             const div = clonedDoc.createElement('div');
@@ -299,19 +299,19 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             div.style.border = 'none';
                             div.style.width = '100%';
                             div.style.height = 'auto';
-                            div.style.minHeight = '35px';
+                            div.style.minHeight = '32px';
                             div.style.whiteSpace = 'pre-wrap';
                             div.style.overflow = 'visible';
-                            div.style.color = '#000000'; // Pure black
-                            div.style.fontWeight = '700'; // Bold
-                            div.style.fontSize = '15px';
+                            div.style.color = '#000000';
+                            div.style.fontWeight = '600';
+                            div.style.fontSize = '14px';
 
                             if (input.parentElement) {
                                 input.parentElement.replaceChild(div, input);
                             }
                         });
 
-                        // Replace Select Triggers with STRONG BLACK TEXT
+                        // Replace Select Triggers with crisp text
                         const selectTriggers = clonedEl.querySelectorAll('button[role="combobox"]');
                         selectTriggers.forEach(btn => {
                             const computedStyle = window.getComputedStyle(btn);
@@ -331,20 +331,20 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             div.style.textAlign = 'center';
                             div.style.background = 'transparent';
                             div.style.borderRadius = '4px';
-                            div.style.padding = '8px';
+                            div.style.padding = '6px';
                             div.style.width = '100%';
                             div.style.height = 'auto';
                             div.style.whiteSpace = 'pre-wrap';
-                            div.style.fontSize = '15px';
-                            div.style.fontWeight = '700'; // Bold
-                            div.style.color = '#000000'; // Pure black
+                            div.style.fontSize = '14px';
+                            div.style.fontWeight = '600';
+                            div.style.color = '#000000';
 
                             if (btn.parentElement) {
                                 btn.parentElement.replaceChild(div, btn);
                             }
                         });
 
-                        // FORCE ALL CELL BORDERS TO BE VISIBLE AND STRONG
+                        // Ensure all cell borders are visible
                         const allCells = clonedEl.querySelectorAll('.grid > div');
                         allCells.forEach(cell => {
                             if (cell instanceof HTMLElement) {
