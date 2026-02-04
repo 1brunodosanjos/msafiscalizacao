@@ -212,26 +212,44 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                     const clonedEl = clonedDoc.getElementById(`schedule-day-${dia}`);
                     if (clonedEl) {
                         // Set container styles
-                        clonedEl.style.cssText = `
-                            height: auto;
-                            width: 1200px;
-                            padding: 40px;
-                            overflow: visible;
-                            background-color: #ffffff !important;
-                            color: #000000 !important;
-                        `;
+                        clonedEl.style.height = 'auto';
+                        clonedEl.style.width = '1200px';
+                        clonedEl.style.padding = '40px';
+                        clonedEl.style.overflow = 'visible';
+                        clonedEl.style.backgroundColor = '#ffffff';
+                        clonedEl.style.color = '#000000';
+                        clonedEl.style.opacity = '1';
 
-                        // Apply export colors from data attributes
+                        // Apply export colors from data attributes with forced opacity
                         const exportElements = clonedEl.querySelectorAll('[data-export-bg]');
                         exportElements.forEach(el => {
                             if (el instanceof HTMLElement) {
                                 const bgColor = el.getAttribute('data-export-bg');
                                 const textColor = el.getAttribute('data-export-color');
                                 if (bgColor) {
-                                    el.style.backgroundColor = bgColor + ' !important';
+                                    el.style.backgroundColor = bgColor;
+                                    el.style.opacity = '1';
                                 }
                                 if (textColor) {
-                                    el.style.color = textColor + ' !important';
+                                    el.style.color = textColor;
+                                }
+                                // Force font weight for visibility
+                                el.style.fontWeight = '700';
+                            }
+                        });
+
+                        // Force all elements to be fully opaque
+                        const allElements = clonedEl.querySelectorAll('*');
+                        allElements.forEach(el => {
+                            if (el instanceof HTMLElement) {
+                                // Remove any opacity that might make things faded
+                                if (el.style.opacity && parseFloat(el.style.opacity) < 1) {
+                                    el.style.opacity = '1';
+                                }
+                                // Remove any transparency from computed styles
+                                const computedStyle = window.getComputedStyle(el);
+                                if (parseFloat(computedStyle.opacity) < 1) {
+                                    el.style.opacity = '1';
                                 }
                             }
                         });
@@ -256,22 +274,22 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         inputs.forEach(input => {
                             const div = clonedDoc.createElement('div');
                             div.innerText = input.value;
-                            div.style.cssText = `
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                text-align: center;
-                                background: transparent;
-                                border: none;
-                                width: 100%;
-                                height: auto;
-                                min-height: 32px;
-                                white-space: pre-wrap;
-                                overflow: visible;
-                                color: #000000 !important;
-                                font-weight: 600;
-                                font-size: 14px;
-                            `;
+                            div.style.display = 'flex';
+                            div.style.alignItems = 'center';
+                            div.style.justifyContent = 'center';
+                            div.style.textAlign = 'center';
+                            div.style.background = 'transparent';
+                            div.style.border = 'none';
+                            div.style.width = '100%';
+                            div.style.height = 'auto';
+                            div.style.minHeight = '32px';
+                            div.style.whiteSpace = 'pre-wrap';
+                            div.style.overflow = 'visible';
+                            div.style.color = '#000000';
+                            div.style.fontWeight = '600';
+                            div.style.fontSize = '14px';
+                            div.style.opacity = '1';
+
                             if (input.parentElement) {
                                 input.parentElement.replaceChild(div, input);
                             }
@@ -291,21 +309,21 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
 
                             const div = clonedDoc.createElement('div');
                             div.innerText = (btn as HTMLElement).innerText;
-                            div.style.cssText = `
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                text-align: center;
-                                background: transparent;
-                                border-radius: 4px;
-                                padding: 6px;
-                                width: 100%;
-                                height: auto;
-                                white-space: pre-wrap;
-                                font-size: 14px;
-                                font-weight: 600;
-                                color: #000000 !important;
-                            `;
+                            div.style.display = 'flex';
+                            div.style.alignItems = 'center';
+                            div.style.justifyContent = 'center';
+                            div.style.textAlign = 'center';
+                            div.style.background = 'transparent';
+                            div.style.borderRadius = '4px';
+                            div.style.padding = '6px';
+                            div.style.width = '100%';
+                            div.style.height = 'auto';
+                            div.style.whiteSpace = 'pre-wrap';
+                            div.style.fontSize = '14px';
+                            div.style.fontWeight = '600';
+                            div.style.color = '#000000';
+                            div.style.opacity = '1';
+
                             if (btn.parentElement) {
                                 btn.parentElement.replaceChild(div, btn);
                             }
