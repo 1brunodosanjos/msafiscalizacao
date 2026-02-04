@@ -237,7 +237,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             table.style.overflow = 'visible';
                             table.style.height = 'auto';
                             table.style.backgroundColor = '#ffffff';
-                            table.style.border = '2px solid #000000';
+                            table.style.border = '1px solid #000000';
                             table.style.borderRadius = '4px';
                         }
 
@@ -259,7 +259,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         gridDividers.forEach(div => {
                             if (div instanceof HTMLElement) {
                                 div.style.borderColor = '#000000';
-                                div.style.borderWidth = '2px';
+                                div.style.borderWidth = '1px';
                             }
                         });
 
