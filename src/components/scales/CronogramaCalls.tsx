@@ -211,58 +211,74 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                 ignoreElements: (el) => el.hasAttribute('data-html2canvas-ignore'),
                 onclone: (clonedDoc, clonedEl) => {
                     const scheduleEl = clonedDoc.getElementById(`schedule-day-${dia}`);
-                    if (!scheduleEl) return;
+                    if (!scheduleEl) {
+                        console.error('Schedule element not found in cloned document');
+                        return;
+                    }
 
-                    // CRITICAL: Remove ALL inherited background colors and set to pure white
-                    scheduleEl.style.backgroundColor = '#ffffff';
-                    scheduleEl.style.backgroundImage = 'none';
-                    scheduleEl.style.padding = '40px';
-                    scheduleEl.style.width = '1200px';
-                    scheduleEl.style.height = 'auto';
-                    scheduleEl.style.opacity = '1';
-                    scheduleEl.style.filter = 'none';
+                    console.log('Starting export modifications...');
 
-                    // Remove dark background from parent
-                    const parent = scheduleEl.parentElement;
-                    if (parent) {
-                        parent.style.backgroundColor = '#ffffff';
-                        parent.style.backgroundImage = 'none';
+                    // Force pure white background using cssText (more aggressive)
+                    scheduleEl.style.cssText += `
+                        background-color: #ffffff !important;
+                        background-image: none !important;
+                        padding: 40px !important;
+                        width: 1200px !important;
+                        height: auto !important;
+                        opacity: 1 !important;
+                        filter: none !important;
+                    `;
+
+                    // Force white background on ALL parent elements
+                    let parent = scheduleEl.parentElement;
+                    while (parent && parent !== clonedDoc.body) {
+                        parent.style.cssText += `
+                            background-color: #ffffff !important;
+                            background-image: none !important;
+                            opacity: 1 !important;
+                        `;
+                        parent = parent.parentElement;
                     }
 
                     // Apply colors to header and table headers using data attributes
                     const exportElements = scheduleEl.querySelectorAll('[data-export-bg]');
-                    exportElements.forEach(el => {
+                    console.log(`Found ${exportElements.length} elements with data-export-bg`);
+
+                    exportElements.forEach((el, index) => {
                         if (el instanceof HTMLElement) {
                             const bgColor = el.getAttribute('data-export-bg');
                             const textColor = el.getAttribute('data-export-color');
 
-                            if (bgColor) {
-                                el.style.setProperty('background-color', bgColor, 'important');
-                                el.style.setProperty('background-image', 'none', 'important');
+                            console.log(`Element ${index}: bg=${bgColor}, text=${textColor}`);
+
+                            if (bgColor && textColor) {
+                                // Use cssText to force styles more aggressively
+                                el.style.cssText += `
+                                    background-color: ${bgColor} !important;
+                                    background-image: none !important;
+                                    color: ${textColor} !important;
+                                    opacity: 1 !important;
+                                    font-weight: 700 !important;
+                                `;
                             }
-                            if (textColor) {
-                                el.style.setProperty('color', textColor, 'important');
-                            }
-                            el.style.setProperty('opacity', '1', 'important');
-                            el.style.setProperty('font-weight', '700', 'important');
                         }
                     });
 
-                    // Force ALL elements to be fully opaque and remove any filters
+                    // Force ALL elements to be fully opaque
                     const allElements = scheduleEl.querySelectorAll('*');
+                    let opaqueCount = 0;
                     allElements.forEach(el => {
                         if (el instanceof HTMLElement) {
-                            // Remove any opacity/transparency
-                            const currentOpacity = window.getComputedStyle(el).opacity;
-                            if (parseFloat(currentOpacity) < 1) {
-                                el.style.setProperty('opacity', '1', 'important');
+                            const opacity = window.getComputedStyle(el).opacity;
+                            if (parseFloat(opacity) < 1) {
+                                el.style.cssText += 'opacity: 1 !important;';
+                                opaqueCount++;
                             }
-
-                            // Remove filters that might cause fading
-                            el.style.setProperty('filter', 'none', 'important');
-                            el.style.setProperty('backdrop-filter', 'none', 'important');
+                            // Remove filters
+                            el.style.cssText += 'filter: none !important; backdrop-filter: none !important;';
                         }
                     });
+                    console.log(`Fixed opacity on ${opaqueCount} elements`);
 
                     // Remove the delete column
                     const tableRows = scheduleEl.querySelectorAll('.grid-cols-\\[120px_1fr_250px_70px\\]');
@@ -288,10 +304,10 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             text-align: center;
                             width: 100%;
                             min-height: 32px;
-                            color: #000000;
+                            color: #000000 !important;
                             font-weight: 600;
                             font-size: 14px;
-                            opacity: 1;
+                            opacity: 1 !important;
                             background: transparent;
                         `;
                         input.parentElement?.replaceChild(div, input);
@@ -303,7 +319,6 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         const btnEl = btn as HTMLElement;
                         const computedBg = window.getComputedStyle(btnEl).backgroundColor;
 
-                        // Hide group selects (they have semi-transparent background)
                         if (computedBg.includes('0.05')) {
                             btnEl.style.display = 'none';
                             return;
@@ -318,16 +333,20 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             text-align: center;
                             width: 100%;
                             padding: 6px;
-                            color: #000000;
+                            color: #000000 !important;
                             font-weight: 600;
                             font-size: 14px;
-                            opacity: 1;
+                            opacity: 1 !important;
                             background: transparent;
                         `;
                         btnEl.parentElement?.replaceChild(div, btnEl);
                     });
+
+                    console.log('Export modifications complete');
                 }
             });
+
+            console.log('Canvas generated, creating blob...');
 
             // Convert canvas to blob and download
             canvas.toBlob((blob) => {
@@ -339,6 +358,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                     link.click();
                     URL.revokeObjectURL(url);
                     toast.success("Imagem baixada!");
+                    console.log('Download complete');
                 }
             }, 'image/png', 1.0);
         } catch (error) {
