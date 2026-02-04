@@ -201,31 +201,67 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
         try {
             toast.info("Gerando imagem...");
             const canvas = await html2canvas(element, {
-                scale: 3, // Even higher quality
-                backgroundColor: '#ffffff', // Set to white for download
+                scale: 4, // Maximum quality
+                backgroundColor: '#ffffff',
                 useCORS: true,
                 logging: false,
-                windowWidth: 1920, // Simulato desktop width
+                windowWidth: 1920,
                 ignoreElements: (el) => el.hasAttribute('data-html2canvas-ignore'),
                 onclone: (clonedDoc) => {
                     const clonedEl = clonedDoc.getElementById(`schedule-day-${dia}`);
                     if (clonedEl) {
-                        // Force full visibility and specific padding for the snapshot
+                        // Force full visibility and specific padding
                         clonedEl.style.height = 'auto';
                         clonedEl.style.width = '1200px';
                         clonedEl.style.padding = '40px';
                         clonedEl.style.overflow = 'visible';
-                        clonedEl.style.backgroundColor = '#ffffff'; // White background
-                        clonedEl.style.color = '#000000'; // Black text
+                        clonedEl.style.backgroundColor = '#ffffff';
+                        clonedEl.style.color = '#000000';
 
-                        // Ensure inner table is fully visible and WHITE
-                        const table = clonedEl.querySelector('.border-2');
+                        // FORCE VIVID COLORS ON DAY HEADER
+                        const dayHeader = clonedEl.querySelector('span.bg-emerald-500');
+                        if (dayHeader instanceof HTMLElement) {
+                            dayHeader.style.backgroundColor = '#10b981'; // Emerald-500 RGB
+                            dayHeader.style.color = '#ffffff';
+                            dayHeader.style.fontWeight = '800';
+                            dayHeader.style.fontSize = '22px';
+                            dayHeader.style.padding = '12px 32px';
+                            dayHeader.style.border = '3px solid #059669'; // Emerald-600
+                            dayHeader.style.borderRadius = '8px';
+                            dayHeader.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                        }
+
+                        // FORCE VIVID COLORS ON TABLE
+                        const table = clonedEl.querySelector('.border-\\[3px\\]');
                         if (table instanceof HTMLElement) {
                             table.style.overflow = 'visible';
                             table.style.height = 'auto';
                             table.style.backgroundColor = '#ffffff';
-                            table.style.border = '3px solid #000000'; // Stronger border
+                            table.style.border = '4px solid #000000'; // Even thicker border
+                            table.style.borderRadius = '4px';
                         }
+
+                        // FORCE VIVID COLORS ON TABLE HEADERS (HORÁRIO, CALL, GESTOR)
+                        const headers = clonedEl.querySelectorAll('.bg-emerald-500');
+                        headers.forEach(header => {
+                            if (header instanceof HTMLElement && header !== dayHeader) {
+                                header.style.backgroundColor = '#10b981'; // Emerald-500 RGB
+                                header.style.color = '#ffffff';
+                                header.style.fontWeight = '900';
+                                header.style.fontSize = '15px';
+                                header.style.padding = '12px';
+                                header.style.textTransform = 'uppercase';
+                            }
+                        });
+
+                        // FORCE STRONG BORDERS ON ALL GRID DIVIDERS
+                        const gridDividers = clonedEl.querySelectorAll('.divide-x-\\[2px\\], .divide-x-\\[3px\\], .divide-y-\\[2px\\]');
+                        gridDividers.forEach(div => {
+                            if (div instanceof HTMLElement) {
+                                div.style.borderColor = '#000000';
+                                div.style.borderWidth = '3px';
+                            }
+                        });
 
                         // Force centering on all grid cells
                         const rows = clonedEl.querySelectorAll('.grid');
@@ -235,21 +271,14 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             }
                         });
 
-                        // Remove the "Delete" column (last 70px)
-                        // Target specifically the rows defined with the 4-column layout
+                        // Remove the "Delete" column
                         const tableRows = clonedEl.querySelectorAll('.grid-cols-\\[120px_1fr_250px_70px\\]');
                         tableRows.forEach(row => {
                             if (row instanceof HTMLElement) {
-                                // Redefine grid to exclude the last column
-                                row.style.gridTemplateColumns = '120px 1fr 250px'; // Was 120px 1fr 250px 70px
-
-                                // Safely handle column visibility
-                                // We ensure we DO NOT hide the 3rd element (Manager/Gestor)
+                                row.style.gridTemplateColumns = '120px 1fr 250px';
                                 const children = Array.from(row.children);
-
-                                // If there are 4 columns (Horario, Call, Gestor, Lixeira), hide the 4th one (Lixeira)
                                 if (children.length >= 4) {
-                                    const lixeira = children[3]; // Index 3 is the 4th element (Trash)
+                                    const lixeira = children[3];
                                     if (lixeira instanceof HTMLElement) {
                                         lixeira.style.display = 'none';
                                     }
@@ -257,51 +286,41 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             }
                         });
 
-
-                        // Replace Inputs with Divs for wrapping and centering (Transparent BG)
+                        // Replace Inputs with STRONG BLACK TEXT
                         const inputs = clonedEl.querySelectorAll('input');
                         inputs.forEach(input => {
                             const div = clonedDoc.createElement('div');
                             div.innerText = input.value;
-                            div.style.cssText = window.getComputedStyle(input).cssText;
                             div.style.display = 'flex';
                             div.style.alignItems = 'center';
                             div.style.justifyContent = 'center';
                             div.style.textAlign = 'center';
-                            div.style.background = 'transparent'; // Keep transparent
+                            div.style.background = 'transparent';
                             div.style.border = 'none';
                             div.style.width = '100%';
                             div.style.height = 'auto';
-                            div.style.minHeight = '30px';
-                            div.style.whiteSpace = 'pre-wrap'; // Allow wrapping
+                            div.style.minHeight = '35px';
+                            div.style.whiteSpace = 'pre-wrap';
                             div.style.overflow = 'visible';
-                            div.style.color = '#000000'; // Strong black text
-                            div.style.fontWeight = '600'; // Semi-bold for better visibility
+                            div.style.color = '#000000'; // Pure black
+                            div.style.fontWeight = '700'; // Bold
+                            div.style.fontSize = '15px';
 
                             if (input.parentElement) {
                                 input.parentElement.replaceChild(div, input);
                             }
                         });
 
-                        // Replace Select Triggers (Combobox) to text
+                        // Replace Select Triggers with STRONG BLACK TEXT
                         const selectTriggers = clonedEl.querySelectorAll('button[role="combobox"]');
                         selectTriggers.forEach(btn => {
-                            // Capture original background color before replacing
                             const computedStyle = window.getComputedStyle(btn);
                             const bgColor = computedStyle.backgroundColor;
-
-                            // Check if this is the "Group" selector (which has bg-black/5 = rgba(0, 0, 0, 0.05))
-                            // The user wants to remove/hide this specific field in the download
-                            // We check for non-transparent/non-white background which distinguishes it from the Gestor select
-                            // Note: rgba(0, 0, 0, 0.05) is standard for bg-black/5
                             const isGroupSelect = bgColor === 'rgba(0, 0, 0, 0.05)' || bgColor.includes('0.05');
 
                             if (isGroupSelect) {
-                                // Hide ONLY the button (trigger), not the parent.
-                                // The parent contains both this Select and the Input (Call Title).
-                                // Hiding the parent hides the Title too, which is wrong.
                                 (btn as HTMLElement).style.display = 'none';
-                                return; // Skip creating the replacement div
+                                return;
                             }
 
                             const div = clonedDoc.createElement('div');
@@ -310,19 +329,27 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             div.style.alignItems = 'center';
                             div.style.justifyContent = 'center';
                             div.style.textAlign = 'center';
-                            // Use the actual original background color
-                            div.style.background = bgColor;
+                            div.style.background = 'transparent';
                             div.style.borderRadius = '4px';
-                            div.style.padding = '6px 8px';
+                            div.style.padding = '8px';
                             div.style.width = '100%';
                             div.style.height = 'auto';
                             div.style.whiteSpace = 'pre-wrap';
-                            div.style.fontSize = '14px';
-                            div.style.fontWeight = '600'; // Bolder text
-                            div.style.color = '#000000'; // Strong black text
+                            div.style.fontSize = '15px';
+                            div.style.fontWeight = '700'; // Bold
+                            div.style.color = '#000000'; // Pure black
 
                             if (btn.parentElement) {
                                 btn.parentElement.replaceChild(div, btn);
+                            }
+                        });
+
+                        // FORCE ALL CELL BORDERS TO BE VISIBLE AND STRONG
+                        const allCells = clonedEl.querySelectorAll('.grid > div');
+                        allCells.forEach(cell => {
+                            if (cell instanceof HTMLElement) {
+                                cell.style.borderColor = '#000000';
+                                cell.style.borderStyle = 'solid';
                             }
                         });
                     }
