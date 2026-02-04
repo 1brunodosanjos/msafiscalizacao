@@ -201,77 +201,38 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
         try {
             toast.info("Gerando imagem...");
             const canvas = await html2canvas(element, {
-                scale: 4, // Maximum quality for crisp export
+                scale: 4,
                 backgroundColor: '#ffffff',
                 useCORS: true,
                 logging: false,
                 windowWidth: 1920,
+                allowTaint: true,
                 ignoreElements: (el) => el.hasAttribute('data-html2canvas-ignore'),
                 onclone: (clonedDoc) => {
                     const clonedEl = clonedDoc.getElementById(`schedule-day-${dia}`);
                     if (clonedEl) {
-                        // Force full visibility and specific padding
-                        clonedEl.style.height = 'auto';
-                        clonedEl.style.width = '1200px';
-                        clonedEl.style.padding = '40px';
-                        clonedEl.style.overflow = 'visible';
-                        clonedEl.style.backgroundColor = '#ffffff';
-                        clonedEl.style.color = '#000000';
-                        clonedEl.style.opacity = '1';
+                        // Set container styles
+                        clonedEl.style.cssText = `
+                            height: auto;
+                            width: 1200px;
+                            padding: 40px;
+                            overflow: visible;
+                            background-color: #ffffff !important;
+                            color: #000000 !important;
+                        `;
 
-                        // Style day header with STRONGER green (emerald-400 instead of 300)
-                        const dayHeader = clonedEl.querySelector('span.bg-emerald-500');
-                        if (dayHeader instanceof HTMLElement) {
-                            dayHeader.style.backgroundColor = '#34d399'; // Emerald-400 (more saturated)
-                            dayHeader.style.color = '#000000'; // Black text
-                            dayHeader.style.fontWeight = '700';
-                            dayHeader.style.fontSize = '18px';
-                            dayHeader.style.padding = '8px 24px';
-                            dayHeader.style.border = '1px solid rgba(0, 0, 0, 0.2)';
-                            dayHeader.style.borderRadius = '4px';
-                            dayHeader.style.boxShadow = '0 1px 2px rgba(0, 0, 0, 0.05)';
-                            dayHeader.style.opacity = '1';
-                        }
-
-                        // Style table with crisp borders
-                        const table = clonedEl.querySelector('.border-\\[3px\\]');
-                        if (table instanceof HTMLElement) {
-                            table.style.overflow = 'visible';
-                            table.style.height = 'auto';
-                            table.style.backgroundColor = '#ffffff';
-                            table.style.border = '1px solid #000000';
-                            table.style.borderRadius = '4px';
-                            table.style.opacity = '1';
-                        }
-
-                        // Style table headers with STRONGER green (emerald-400)
-                        const headers = clonedEl.querySelectorAll('.bg-emerald-500');
-                        headers.forEach(header => {
-                            if (header instanceof HTMLElement && header !== dayHeader) {
-                                header.style.backgroundColor = '#34d399'; // Emerald-400 (more saturated)
-                                header.style.color = '#000000'; // Black text
-                                header.style.fontWeight = '700';
-                                header.style.fontSize = '14px';
-                                header.style.padding = '8px';
-                                header.style.textTransform = 'uppercase';
-                                header.style.opacity = '1';
-                            }
-                        });
-
-                        // Force strong borders on grid dividers
-                        const gridDividers = clonedEl.querySelectorAll('.divide-x-\\[2px\\], .divide-x-\\[3px\\], .divide-y-\\[2px\\]');
-                        gridDividers.forEach(div => {
-                            if (div instanceof HTMLElement) {
-                                div.style.borderColor = '#000000';
-                                div.style.borderWidth = '1px';
-                            }
-                        });
-
-                        // Force centering on all grid cells
-                        const rows = clonedEl.querySelectorAll('.grid');
-                        rows.forEach(row => {
-                            if (row instanceof HTMLElement) {
-                                row.style.alignItems = 'center';
+                        // Apply export colors from data attributes
+                        const exportElements = clonedEl.querySelectorAll('[data-export-bg]');
+                        exportElements.forEach(el => {
+                            if (el instanceof HTMLElement) {
+                                const bgColor = el.getAttribute('data-export-bg');
+                                const textColor = el.getAttribute('data-export-color');
+                                if (bgColor) {
+                                    el.style.backgroundColor = bgColor + ' !important';
+                                }
+                                if (textColor) {
+                                    el.style.color = textColor + ' !important';
+                                }
                             }
                         });
 
@@ -290,33 +251,33 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             }
                         });
 
-                        // Replace Inputs with crisp BLACK text (no opacity)
+                        // Replace Inputs with divs
                         const inputs = clonedEl.querySelectorAll('input');
                         inputs.forEach(input => {
                             const div = clonedDoc.createElement('div');
                             div.innerText = input.value;
-                            div.style.display = 'flex';
-                            div.style.alignItems = 'center';
-                            div.style.justifyContent = 'center';
-                            div.style.textAlign = 'center';
-                            div.style.background = 'transparent';
-                            div.style.border = 'none';
-                            div.style.width = '100%';
-                            div.style.height = 'auto';
-                            div.style.minHeight = '32px';
-                            div.style.whiteSpace = 'pre-wrap';
-                            div.style.overflow = 'visible';
-                            div.style.color = '#000000';
-                            div.style.fontWeight = '600';
-                            div.style.fontSize = '14px';
-                            div.style.opacity = '1';
-
+                            div.style.cssText = `
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                text-align: center;
+                                background: transparent;
+                                border: none;
+                                width: 100%;
+                                height: auto;
+                                min-height: 32px;
+                                white-space: pre-wrap;
+                                overflow: visible;
+                                color: #000000 !important;
+                                font-weight: 600;
+                                font-size: 14px;
+                            `;
                             if (input.parentElement) {
                                 input.parentElement.replaceChild(div, input);
                             }
                         });
 
-                        // Replace Select Triggers with crisp text (no opacity)
+                        // Replace Select Triggers
                         const selectTriggers = clonedEl.querySelectorAll('button[role="combobox"]');
                         selectTriggers.forEach(btn => {
                             const computedStyle = window.getComputedStyle(btn);
@@ -330,44 +291,23 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
 
                             const div = clonedDoc.createElement('div');
                             div.innerText = (btn as HTMLElement).innerText;
-                            div.style.display = 'flex';
-                            div.style.alignItems = 'center';
-                            div.style.justifyContent = 'center';
-                            div.style.textAlign = 'center';
-                            div.style.background = 'transparent';
-                            div.style.borderRadius = '4px';
-                            div.style.padding = '6px';
-                            div.style.width = '100%';
-                            div.style.height = 'auto';
-                            div.style.whiteSpace = 'pre-wrap';
-                            div.style.fontSize = '14px';
-                            div.style.fontWeight = '600';
-                            div.style.color = '#000000';
-                            div.style.opacity = '1';
-
+                            div.style.cssText = `
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                text-align: center;
+                                background: transparent;
+                                border-radius: 4px;
+                                padding: 6px;
+                                width: 100%;
+                                height: auto;
+                                white-space: pre-wrap;
+                                font-size: 14px;
+                                font-weight: 600;
+                                color: #000000 !important;
+                            `;
                             if (btn.parentElement) {
                                 btn.parentElement.replaceChild(div, btn);
-                            }
-                        });
-
-                        // Ensure all cell borders are visible and cells have full opacity
-                        const allCells = clonedEl.querySelectorAll('.grid > div');
-                        allCells.forEach(cell => {
-                            if (cell instanceof HTMLElement) {
-                                cell.style.borderColor = '#000000';
-                                cell.style.borderStyle = 'solid';
-                                cell.style.opacity = '1';
-                            }
-                        });
-
-                        // Force all text elements to be fully opaque
-                        const allTextElements = clonedEl.querySelectorAll('*');
-                        allTextElements.forEach(el => {
-                            if (el instanceof HTMLElement) {
-                                const computedOpacity = window.getComputedStyle(el).opacity;
-                                if (parseFloat(computedOpacity) < 1) {
-                                    el.style.opacity = '1';
-                                }
                             }
                         });
                     }
@@ -456,7 +396,11 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         <div key={dia} id={`schedule-day-${dia}`} className="flex flex-col items-center w-full animate-in fade-in duration-500 p-6 bg-[#0f172a] rounded-lg">
                             {/* Day Header */}
                             <div className="mb-4 flex items-center justify-center gap-4 relative w-full max-w-5xl">
-                                <span className="bg-emerald-500 px-8 py-2.5 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md">
+                                <span
+                                    className="bg-emerald-500 px-8 py-2.5 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md"
+                                    data-export-bg="#34d399"
+                                    data-export-color="#000000"
+                                >
                                     {DIAS_LABEL[dia]}
                                 </span>
                                 <Button
@@ -474,9 +418,21 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             <div className="w-full max-w-5xl border-[3px] border-black bg-white shadow-xl rounded-sm overflow-hidden">
                                 {/* Table Header */}
                                 <div className="grid grid-cols-[120px_1fr_250px_70px] border-b-[3px] border-black divide-x-[3px] divide-black bg-emerald-100 font-bold text-sm uppercase">
-                                    <div className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold">HORÁRIO</div>
-                                    <div className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold">CALL</div>
-                                    <div className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold">GESTOR</div>
+                                    <div
+                                        className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold"
+                                        data-export-bg="#34d399"
+                                        data-export-color="#000000"
+                                    >HORÁRIO</div>
+                                    <div
+                                        className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold"
+                                        data-export-bg="#34d399"
+                                        data-export-color="#000000"
+                                    >CALL</div>
+                                    <div
+                                        className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold"
+                                        data-export-bg="#34d399"
+                                        data-export-color="#000000"
+                                    >GESTOR</div>
                                     <div className="p-3 bg-emerald-500 text-white" data-html2canvas-ignore></div>
                                 </div>
 
