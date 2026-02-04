@@ -398,7 +398,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             <div className="mb-4 flex items-center justify-center gap-4 relative w-full max-w-5xl">
                                 <span
                                     className="bg-emerald-500 px-8 py-2.5 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md"
-                                    data-export-bg="#6ee7b7"
+                                    data-export-bg="#5eead4"
                                     data-export-color="#000000"
                                 >
                                     {DIAS_LABEL[dia]}
@@ -420,17 +420,17 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                 <div className="grid grid-cols-[120px_1fr_250px_70px] border-b-[3px] border-black divide-x-[3px] divide-black bg-emerald-100 font-bold text-sm uppercase">
                                     <div
                                         className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold"
-                                        data-export-bg="#6ee7b7"
+                                        data-export-bg="#5eead4"
                                         data-export-color="#000000"
                                     >HORÁRIO</div>
                                     <div
                                         className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold"
-                                        data-export-bg="#6ee7b7"
+                                        data-export-bg="#5eead4"
                                         data-export-color="#000000"
                                     >CALL</div>
                                     <div
                                         className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold"
-                                        data-export-bg="#6ee7b7"
+                                        data-export-bg="#5eead4"
                                         data-export-color="#000000"
                                     >GESTOR</div>
                                     <div className="p-3 bg-emerald-500 text-white" data-html2canvas-ignore></div>
