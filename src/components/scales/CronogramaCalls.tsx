@@ -217,18 +217,20 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         clonedEl.style.overflow = 'visible';
                         clonedEl.style.backgroundColor = '#ffffff';
                         clonedEl.style.color = '#000000';
+                        clonedEl.style.opacity = '1';
 
-                        // Style day header with original light green
+                        // Style day header with STRONGER green (emerald-400 instead of 300)
                         const dayHeader = clonedEl.querySelector('span.bg-emerald-500');
                         if (dayHeader instanceof HTMLElement) {
-                            dayHeader.style.backgroundColor = '#6ee7b7'; // Emerald-300 (light green)
+                            dayHeader.style.backgroundColor = '#34d399'; // Emerald-400 (more saturated)
                             dayHeader.style.color = '#000000'; // Black text
                             dayHeader.style.fontWeight = '700';
                             dayHeader.style.fontSize = '18px';
                             dayHeader.style.padding = '8px 24px';
-                            dayHeader.style.border = '1px solid rgba(0, 0, 0, 0.1)';
+                            dayHeader.style.border = '1px solid rgba(0, 0, 0, 0.2)';
                             dayHeader.style.borderRadius = '4px';
                             dayHeader.style.boxShadow = '0 1px 2px rgba(0, 0, 0, 0.05)';
+                            dayHeader.style.opacity = '1';
                         }
 
                         // Style table with crisp borders
@@ -239,18 +241,20 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             table.style.backgroundColor = '#ffffff';
                             table.style.border = '1px solid #000000';
                             table.style.borderRadius = '4px';
+                            table.style.opacity = '1';
                         }
 
-                        // Style table headers with light green (original design)
+                        // Style table headers with STRONGER green (emerald-400)
                         const headers = clonedEl.querySelectorAll('.bg-emerald-500');
                         headers.forEach(header => {
                             if (header instanceof HTMLElement && header !== dayHeader) {
-                                header.style.backgroundColor = '#6ee7b7'; // Emerald-300 (light green)
+                                header.style.backgroundColor = '#34d399'; // Emerald-400 (more saturated)
                                 header.style.color = '#000000'; // Black text
                                 header.style.fontWeight = '700';
                                 header.style.fontSize = '14px';
                                 header.style.padding = '8px';
                                 header.style.textTransform = 'uppercase';
+                                header.style.opacity = '1';
                             }
                         });
 
@@ -286,7 +290,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             }
                         });
 
-                        // Replace Inputs with crisp black text
+                        // Replace Inputs with crisp BLACK text (no opacity)
                         const inputs = clonedEl.querySelectorAll('input');
                         inputs.forEach(input => {
                             const div = clonedDoc.createElement('div');
@@ -305,13 +309,14 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             div.style.color = '#000000';
                             div.style.fontWeight = '600';
                             div.style.fontSize = '14px';
+                            div.style.opacity = '1';
 
                             if (input.parentElement) {
                                 input.parentElement.replaceChild(div, input);
                             }
                         });
 
-                        // Replace Select Triggers with crisp text
+                        // Replace Select Triggers with crisp text (no opacity)
                         const selectTriggers = clonedEl.querySelectorAll('button[role="combobox"]');
                         selectTriggers.forEach(btn => {
                             const computedStyle = window.getComputedStyle(btn);
@@ -338,18 +343,31 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             div.style.fontSize = '14px';
                             div.style.fontWeight = '600';
                             div.style.color = '#000000';
+                            div.style.opacity = '1';
 
                             if (btn.parentElement) {
                                 btn.parentElement.replaceChild(div, btn);
                             }
                         });
 
-                        // Ensure all cell borders are visible
+                        // Ensure all cell borders are visible and cells have full opacity
                         const allCells = clonedEl.querySelectorAll('.grid > div');
                         allCells.forEach(cell => {
                             if (cell instanceof HTMLElement) {
                                 cell.style.borderColor = '#000000';
                                 cell.style.borderStyle = 'solid';
+                                cell.style.opacity = '1';
+                            }
+                        });
+
+                        // Force all text elements to be fully opaque
+                        const allTextElements = clonedEl.querySelectorAll('*');
+                        allTextElements.forEach(el => {
+                            if (el instanceof HTMLElement) {
+                                const computedOpacity = window.getComputedStyle(el).opacity;
+                                if (parseFloat(computedOpacity) < 1) {
+                                    el.style.opacity = '1';
+                                }
                             }
                         });
                     }
