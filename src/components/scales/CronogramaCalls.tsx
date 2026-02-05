@@ -256,6 +256,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                 // Determine font size based on element type
                                 const isDayHeader = el.tagName === 'SPAN';
                                 const fontSize = isDayHeader ? '36px' : '22px';
+                                const padding = isDayHeader ? '16px 40px' : '';
 
                                 // Use cssText to force styles more aggressively
                                 el.style.cssText += `
@@ -265,6 +266,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                     opacity: 1 !important;
                                     font-weight: 700 !important;
                                     font-size: ${fontSize} !important;
+                                    ${padding ? `padding: ${padding} !important;` : ''}
                                 `;
                             }
                         }
