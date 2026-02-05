@@ -263,6 +263,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                 const fontSize = isDayHeader ? '40px' : '24px';
                                 const padding = isDayHeader ? '20px 48px' : '18px 16px';
 
+
                                 // Use cssText to force styles more aggressively
                                 el.style.cssText += `
                                     background-color: ${bgColor} !important;
@@ -272,6 +273,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                     font-weight: 700 !important;
                                     font-size: ${fontSize} !important;
                                     ${padding ? `padding: ${padding} !important;` : ''}
+                                    ${isDayHeader ? 'text-align: center !important; display: block !important;' : ''}
                                 `;
                             }
                         }
