@@ -502,17 +502,17 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                     <div
                                         className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold"
                                         data-export-bg="#10b981"
-                                        data-export-color="#ffffff"
+                                        data-export-color="#000000"
                                     >HORÁRIO</div>
                                     <div
                                         className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold"
                                         data-export-bg="#10b981"
-                                        data-export-color="#ffffff"
+                                        data-export-color="#000000"
                                     >CALL</div>
                                     <div
                                         className="p-3 bg-emerald-500 text-white flex items-center justify-center font-extrabold"
                                         data-export-bg="#10b981"
-                                        data-export-color="#ffffff"
+                                        data-export-color="#000000"
                                     >GESTOR</div>
                                     <div className="p-3 bg-emerald-500 text-white" data-html2canvas-ignore></div>
                                 </div>
