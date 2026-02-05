@@ -312,10 +312,11 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             text-align: center;
                             width: 100%;
                             min-height: 32px;
-                            padding: 16px 8px;
+                            padding: 20px 12px;
                             color: #000000 !important;
                             font-weight: 600;
                             font-size: 24px;
+                            line-height: 1.4;
                             opacity: 1 !important;
                             background: transparent;
                         `;
@@ -341,10 +342,11 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             justify-content: center;
                             text-align: center;
                             width: 100%;
-                            padding: 16px 8px;
+                            padding: 20px 12px;
                             color: #000000 !important;
                             font-weight: 600;
                             font-size: 24px;
+                            line-height: 1.4;
                             opacity: 1 !important;
                             background: transparent;
                         `;
