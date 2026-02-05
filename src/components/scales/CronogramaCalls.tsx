@@ -202,12 +202,19 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
         try {
             toast.info("Gerando imagem...");
 
+            // Calculate dynamic height based on number of rows
+            const dayItems = items.filter(item => item.dia_semana === dia);
+            const numRows = dayItems.length;
+            // Base height + (row height * number of rows) + padding
+            const dynamicHeight = 400 + (numRows * 100) + 200;
+
             const canvas = await html2canvas(element, {
                 scale: 4,
                 backgroundColor: '#ffffff',
                 useCORS: true,
                 logging: false,
                 windowWidth: 1920,
+                windowHeight: dynamicHeight,
                 allowTaint: true,
                 ignoreElements: (el) => el.hasAttribute('data-html2canvas-ignore'),
                 onclone: (clonedDoc, clonedEl) => {
