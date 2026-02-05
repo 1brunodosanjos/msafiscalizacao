@@ -261,7 +261,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                 // Determine font size based on element type
                                 const isDayHeader = el.tagName === 'SPAN';
                                 const fontSize = isDayHeader ? '40px' : '24px';
-                                const padding = isDayHeader ? '16px 40px' : '18px 16px';
+                                const padding = isDayHeader ? '20px 48px' : '18px 16px';
 
                                 // Use cssText to force styles more aggressively
                                 el.style.cssText += `
@@ -478,7 +478,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             {/* Day Header */}
                             <div className="mb-4 flex items-center justify-center gap-4 relative w-full max-w-5xl">
                                 <span
-                                    className="bg-emerald-500 px-8 py-2.5 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md"
+                                    className="bg-emerald-500 px-12 py-3 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md inline-block"
                                     data-export-bg="#10b981"
                                     data-export-color="#000000"
                                 >
