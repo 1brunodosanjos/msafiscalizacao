@@ -487,23 +487,27 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                     DIAS_ORDEM.map(dia => (
                         <div key={dia} id={`schedule-day-${dia}`} className="flex flex-col items-center w-full animate-in fade-in duration-500 p-6 bg-[#0f172a] rounded-lg">
                             {/* Day Header */}
-                            <div className="mb-4 flex items-center justify-center gap-4 relative w-full max-w-5xl">
-                                <span
-                                    className="bg-emerald-500 px-12 py-3 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md block text-center w-full max-w-md"
-                                    data-export-bg="#10b981"
-                                    data-export-color="#000000"
-                                >
-                                    {DIAS_LABEL[dia]}
-                                </span>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="absolute right-0 text-white hover:text-emerald-400 hover:bg-white/5 print:hidden"
-                                    onClick={() => handleDownloadDay(dia)}
-                                    data-html2canvas-ignore
-                                >
-                                    <Download className="w-4 h-4 mr-2" /> Baixar Dia
-                                </Button>
+                            <div className="mb-4 w-full max-w-5xl space-y-2">
+                                <div className="flex items-center justify-end">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="text-white hover:text-emerald-400 hover:bg-white/5 print:hidden"
+                                        onClick={() => handleDownloadDay(dia)}
+                                        data-html2canvas-ignore
+                                    >
+                                        <Download className="w-4 h-4 mr-2" /> Baixar Dia
+                                    </Button>
+                                </div>
+                                <div className="flex justify-center">
+                                    <span
+                                        className="bg-emerald-500 px-12 py-3 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md block text-center w-full max-w-md"
+                                        data-export-bg="#10b981"
+                                        data-export-color="#000000"
+                                    >
+                                        {DIAS_LABEL[dia]}
+                                    </span>
+                                </div>
                             </div>
 
                             {/* Table */}
