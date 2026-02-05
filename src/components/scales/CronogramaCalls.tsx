@@ -305,15 +305,15 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         }
                     });
 
-                    // Reduce border thickness for better proportions
+                    // Adjust border thickness for better visibility
                     const borderElements = scheduleEl.querySelectorAll('*');
                     borderElements.forEach(el => {
                         if (el instanceof HTMLElement) {
                             const computedStyle = window.getComputedStyle(el);
 
-                            // Replace thick borders (3px) with thin borders (1px)
+                            // Replace thick borders (3px) with medium borders (2px)
                             if (computedStyle.borderWidth.includes('3px')) {
-                                el.style.cssText += 'border-width: 1px !important;';
+                                el.style.cssText += 'border-width: 2px !important;';
                             }
 
                             // Fix divide borders
@@ -321,7 +321,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                 const children = Array.from(el.children);
                                 children.forEach((child, index) => {
                                     if (child instanceof HTMLElement && index > 0) {
-                                        child.style.cssText += 'border-left-width: 1px !important;';
+                                        child.style.cssText += 'border-left-width: 2px !important;';
                                     }
                                 });
                             }
