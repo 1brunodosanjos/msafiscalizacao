@@ -255,7 +255,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             if (bgColor && textColor) {
                                 // Determine font size based on element type
                                 const isDayHeader = el.tagName === 'SPAN';
-                                const fontSize = isDayHeader ? '28px' : '18px';
+                                const fontSize = isDayHeader ? '36px' : '22px';
 
                                 // Use cssText to force styles more aggressively
                                 el.style.cssText += `
@@ -312,7 +312,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             min-height: 32px;
                             color: #000000 !important;
                             font-weight: 600;
-                            font-size: 16px;
+                            font-size: 18px;
                             opacity: 1 !important;
                             background: transparent;
                         `;
@@ -341,7 +341,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             padding: 6px;
                             color: #000000 !important;
                             font-weight: 600;
-                            font-size: 16px;
+                            font-size: 18px;
                             opacity: 1 !important;
                             background: transparent;
                         `;
