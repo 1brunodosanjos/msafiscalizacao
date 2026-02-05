@@ -255,8 +255,8 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             if (bgColor && textColor) {
                                 // Determine font size based on element type
                                 const isDayHeader = el.tagName === 'SPAN';
-                                const fontSize = isDayHeader ? '48px' : '30px';
-                                const padding = isDayHeader ? '18px 40px' : '16px 12px';
+                                const fontSize = isDayHeader ? '40px' : '24px';
+                                const padding = isDayHeader ? '16px 40px' : '18px 16px';
 
                                 // Use cssText to force styles more aggressively
                                 el.style.cssText += `
@@ -292,7 +292,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                     const tableRows = scheduleEl.querySelectorAll('.grid-cols-\\[120px_1fr_250px_70px\\]');
                     tableRows.forEach(row => {
                         if (row instanceof HTMLElement) {
-                            row.style.gridTemplateColumns = '120px 1fr 250px';
+                            row.style.gridTemplateColumns = '140px 1fr 250px';
                             const children = Array.from(row.children);
                             if (children.length >= 4) {
                                 (children[3] as HTMLElement).style.display = 'none';
@@ -335,10 +335,10 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             text-align: center;
                             width: 100%;
                             min-height: 32px;
-                            padding: 20px 12px;
+                            padding: 18px 14px;
                             color: #000000 !important;
                             font-weight: 600;
-                            font-size: 24px;
+                            font-size: 20px;
                             line-height: 1.4;
                             opacity: 1 !important;
                             background: transparent;
@@ -365,10 +365,10 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             justify-content: center;
                             text-align: center;
                             width: 100%;
-                            padding: 20px 12px;
+                            padding: 18px 14px;
                             color: #000000 !important;
                             font-weight: 600;
-                            font-size: 24px;
+                            font-size: 20px;
                             line-height: 1.4;
                             opacity: 1 !important;
                             background: transparent;
@@ -475,7 +475,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                 <span
                                     className="bg-emerald-500 px-8 py-2.5 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md"
                                     data-export-bg="#10b981"
-                                    data-export-color="#ffffff"
+                                    data-export-color="#000000"
                                 >
                                     {DIAS_LABEL[dia]}
                                 </span>
