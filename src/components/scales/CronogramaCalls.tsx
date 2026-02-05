@@ -307,15 +307,24 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         }
                     });
 
-                    // Adjust border thickness for better visibility
+                    // Standardize ALL border widths to 1.5px for consistency
                     const borderElements = scheduleEl.querySelectorAll('*');
                     borderElements.forEach(el => {
                         if (el instanceof HTMLElement) {
                             const computedStyle = window.getComputedStyle(el);
 
-                            // Replace thick borders (3px) with thin borders (1.5px)
-                            if (computedStyle.borderWidth.includes('3px')) {
-                                el.style.cssText += 'border-width: 1.5px !important;';
+                            // Force ALL borders to be exactly 1.5px
+                            if (computedStyle.borderTopWidth && computedStyle.borderTopWidth !== '0px') {
+                                el.style.borderTopWidth = '1.5px';
+                            }
+                            if (computedStyle.borderRightWidth && computedStyle.borderRightWidth !== '0px') {
+                                el.style.borderRightWidth = '1.5px';
+                            }
+                            if (computedStyle.borderBottomWidth && computedStyle.borderBottomWidth !== '0px') {
+                                el.style.borderBottomWidth = '1.5px';
+                            }
+                            if (computedStyle.borderLeftWidth && computedStyle.borderLeftWidth !== '0px') {
+                                el.style.borderLeftWidth = '1.5px';
                             }
 
                             // Fix divide borders
