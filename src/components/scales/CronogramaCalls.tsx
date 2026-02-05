@@ -267,7 +267,6 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                     font-weight: 700 !important;
                                     font-size: ${fontSize} !important;
                                     ${padding ? `padding: ${padding} !important;` : ''}
-                                    ${isDayHeader ? 'text-align: center !important; display: block !important; width: 100% !important; justify-content: center !important; align-items: center !important;' : ''}
                                 `;
                             }
                         }
