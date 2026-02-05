@@ -253,6 +253,10 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             console.log(`Element ${index}: bg=${bgColor}, text=${textColor}`);
 
                             if (bgColor && textColor) {
+                                // Determine font size based on element type
+                                const isDayHeader = el.tagName === 'SPAN';
+                                const fontSize = isDayHeader ? '28px' : '18px';
+
                                 // Use cssText to force styles more aggressively
                                 el.style.cssText += `
                                     background-color: ${bgColor} !important;
@@ -260,6 +264,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                     color: ${textColor} !important;
                                     opacity: 1 !important;
                                     font-weight: 700 !important;
+                                    font-size: ${fontSize} !important;
                                 `;
                             }
                         }
@@ -307,7 +312,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             min-height: 32px;
                             color: #000000 !important;
                             font-weight: 600;
-                            font-size: 14px;
+                            font-size: 16px;
                             opacity: 1 !important;
                             background: transparent;
                         `;
@@ -336,7 +341,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             padding: 6px;
                             color: #000000 !important;
                             font-weight: 600;
-                            font-size: 14px;
+                            font-size: 16px;
                             opacity: 1 !important;
                             background: transparent;
                         `;
