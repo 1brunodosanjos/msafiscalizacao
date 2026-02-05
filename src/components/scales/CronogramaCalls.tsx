@@ -311,9 +311,9 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         if (el instanceof HTMLElement) {
                             const computedStyle = window.getComputedStyle(el);
 
-                            // Replace thick borders (3px) with medium borders (2px)
+                            // Replace thick borders (3px) with thin borders (1.5px)
                             if (computedStyle.borderWidth.includes('3px')) {
-                                el.style.cssText += 'border-width: 2px !important;';
+                                el.style.cssText += 'border-width: 1.5px !important;';
                             }
 
                             // Fix divide borders
@@ -321,7 +321,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                                 const children = Array.from(el.children);
                                 children.forEach((child, index) => {
                                     if (child instanceof HTMLElement && index > 0) {
-                                        child.style.cssText += 'border-left-width: 2px !important;';
+                                        child.style.cssText += 'border-left-width: 1.5px !important;';
                                     }
                                 });
                             }
