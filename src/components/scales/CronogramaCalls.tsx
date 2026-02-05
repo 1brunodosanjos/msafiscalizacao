@@ -260,7 +260,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             if (bgColor && textColor) {
                                 // Determine font size based on element type
                                 const isDayHeader = el.tagName === 'SPAN';
-                                const fontSize = isDayHeader ? '40px' : '24px';
+                                const fontSize = isDayHeader ? '36px' : '24px';
                                 const padding = isDayHeader ? '20px 48px' : '18px 16px';
 
 
