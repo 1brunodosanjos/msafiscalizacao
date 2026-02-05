@@ -489,7 +489,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             {/* Day Header */}
                             <div className="mb-4 flex items-center justify-center gap-4 relative w-full max-w-5xl">
                                 <span
-                                    className="bg-emerald-500 px-12 py-3 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md inline-block"
+                                    className="bg-emerald-500 px-12 py-3 font-bold text-xl uppercase text-white border-2 border-emerald-700 shadow-lg rounded-md block text-center w-full max-w-md"
                                     data-export-bg="#10b981"
                                     data-export-color="#000000"
                                 >
