@@ -300,6 +300,29 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                         }
                     });
 
+                    // Reduce border thickness for better proportions
+                    const borderElements = scheduleEl.querySelectorAll('*');
+                    borderElements.forEach(el => {
+                        if (el instanceof HTMLElement) {
+                            const computedStyle = window.getComputedStyle(el);
+
+                            // Replace thick borders (3px) with thin borders (1px)
+                            if (computedStyle.borderWidth.includes('3px')) {
+                                el.style.cssText += 'border-width: 1px !important;';
+                            }
+
+                            // Fix divide borders
+                            if (el.classList.contains('divide-x-[3px]') || el.classList.contains('divide-y-[3px]')) {
+                                const children = Array.from(el.children);
+                                children.forEach((child, index) => {
+                                    if (child instanceof HTMLElement && index > 0) {
+                                        child.style.cssText += 'border-left-width: 1px !important;';
+                                    }
+                                });
+                            }
+                        }
+                    });
+
                     // Replace inputs with static divs
                     const inputs = scheduleEl.querySelectorAll('input');
                     inputs.forEach(input => {
