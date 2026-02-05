@@ -340,10 +340,10 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             text-align: center;
                             width: 100%;
                             min-height: 32px;
-                            padding: 18px 14px;
+                            padding: 22px 16px;
                             color: #000000 !important;
                             font-weight: 600;
-                            font-size: 24px;
+                            font-size: 28px;
                             line-height: 1.4;
                             opacity: 1 !important;
                             background: transparent;
@@ -370,10 +370,10 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             justify-content: center;
                             text-align: center;
                             width: 100%;
-                            padding: 18px 14px;
+                            padding: 22px 16px;
                             color: #000000 !important;
                             font-weight: 600;
-                            font-size: 24px;
+                            font-size: 28px;
                             line-height: 1.4;
                             opacity: 1 !important;
                             background: transparent;
