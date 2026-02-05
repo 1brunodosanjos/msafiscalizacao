@@ -205,8 +205,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
             // Calculate dynamic height based on number of rows
             const dayItems = items.filter(item => item.dia_semana === dia);
             const numRows = dayItems.length;
-            // Base height + (row height * number of rows) + padding
-            const dynamicHeight = 400 + (numRows * 100) + 200;
+            console.log(`Day ${dia} has ${numRows} calls`);
 
             const canvas = await html2canvas(element, {
                 scale: 4,
@@ -214,7 +213,6 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                 useCORS: true,
                 logging: false,
                 windowWidth: 1920,
-                windowHeight: dynamicHeight,
                 allowTaint: true,
                 ignoreElements: (el) => el.hasAttribute('data-html2canvas-ignore'),
                 onclone: (clonedDoc, clonedEl) => {
@@ -345,7 +343,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             padding: 18px 14px;
                             color: #000000 !important;
                             font-weight: 600;
-                            font-size: 20px;
+                            font-size: 24px;
                             line-height: 1.4;
                             opacity: 1 !important;
                             background: transparent;
@@ -375,7 +373,7 @@ export function CronogramaCallsView({ readOnly }: { readOnly?: boolean }) {
                             padding: 18px 14px;
                             color: #000000 !important;
                             font-weight: 600;
-                            font-size: 20px;
+                            font-size: 24px;
                             line-height: 1.4;
                             opacity: 1 !important;
                             background: transparent;
